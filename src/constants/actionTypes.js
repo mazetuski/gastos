@@ -1,0 +1,1 @@
+export const ADD_GASTO = "ADD_GASTO";
