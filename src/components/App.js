@@ -24,6 +24,9 @@ class App extends Component {
                             <li className="nav-item">
                                 <Link className="navbar-brand" to='/form'>Nuevo</Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="navbar-brand" to='/login'>Login</Link>
+                            </li>
                         </ul>
                     </div>
                 </nav>
