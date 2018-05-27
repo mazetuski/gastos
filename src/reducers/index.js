@@ -4,7 +4,8 @@ import {urlApi} from "../constants/constants";
 
 const initialState = {
     gastos: [],
-    isAuth: false
+    isAuth: false,
+    token: localStorage.getItem("tokenExpense")
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -16,31 +17,28 @@ const rootReducer = (state = initialState, action) => {
             let username = action.payload.user;
             let password = action.payload.pass;
 
-            let opts={
-              "username": username,
-              "password": password
-            };
-
-            let url = urlApi + "/login_check";
-            console.log(url);
-
-            fetch(url, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(opts)
-            })
+            let formData = new FormData();
+            formData.append('_username', username);
+            formData.append('_password', password);
+            fetch(urlApi + "/login_check",
+                {
+                    method: 'post',
+                    mode: 'cors',
+                    body: formData
+                })
                 .then(function (response) {
                     return response.json();
                 })
                 .then(function (myJson) {
+                    let token= myJson.token;
+                    let isAuth = true;
+                    localStorage.setItem('tokenExpense', token);
+                    state = Object.assign({token: token, isAuth: isAuth}, state);
+                    window.location.href='http://'+window.location.host+"/";
                     console.log(myJson);
+                    console.log(isAuth);
                 });
-
-            let isAuth = true;
-            return {...state, isAuth: [...state.isAuth, isAuth]};
+            return state;
         default:
             return state;
     }
