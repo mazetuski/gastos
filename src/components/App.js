@@ -1,11 +1,12 @@
 // Dependencies
 import React, {Component} from 'react';
-import Login from './Login'
+import Login from './Login';
 import logo from '../logo.svg';
 import '../App.css';
 import Main from './Main';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
+import { withRouter } from 'react-router'
 
 const mapStateToProps = state => {
     return {isAuth: state.isAuth, token: state.token};
@@ -64,6 +65,6 @@ class AppConnected extends Component {
     }
 }
 
-const App = connect(mapStateToProps)(AppConnected);
+const App = withRouter(connect(mapStateToProps)(AppConnected));
 
 export default App;
